@@ -4,6 +4,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { Client } from 'src/app/model/client.model';
 import { ClientService } from 'src/app/services/client.service';
+import { DateParse } from 'src/app/utils/dateParse';
 import { ClientRegisterComponent } from '../modal/client-register/client-register.component';
 import { ConfirmActionComponent } from '../modal/confirm-action/confirm-action.component';
 
@@ -61,13 +62,27 @@ export class HomeComponent implements OnInit {
       res => {
         if(res != null){
           if(res.id == null){
-            //this.createUser(res);
+            this.createClient(res);
           }else{
-            //this.updateUser(res);
+            this.updateClient(res);
           }
         }
       }
     );
+  }
+
+  createClient(client:Client){
+    console.log(client)
+    this.clientService.createClient(client).subscribe(
+      res => this.readAllClients()
+    )
+  }
+
+  updateClient(client:Client){
+    console.log(client)
+    this.clientService.createClient(client).subscribe(
+      res => this.readAllClients()
+    )
   }
 
   deleteUser(client:any){
@@ -92,5 +107,14 @@ export class HomeComponent implements OnInit {
         }
       }
     )
+  }
+
+  parseDate(dateStr){
+    let date = dateStr.substring(0, 10);
+    let time = dateStr.substring(11, 19);
+    let millisecond = dateStr.substring(20)
+    let validDate = date + 'T' + time + '.' + millisecond;
+    console.log(validDate)
+    return validDate
   }
 }

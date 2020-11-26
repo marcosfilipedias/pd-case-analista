@@ -20,6 +20,10 @@ import { ClientRegisterComponent } from './components/modal/client-register/clie
 import { ProcedimentoRegisterComponent } from './components/modal/procedimento-register/procedimento-register.component';
 import { ConfirmActionComponent } from './components/modal/confirm-action/confirm-action.component';
 import { PlanoPipe } from './utils/plano.pipe';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -49,13 +53,18 @@ import { PlanoPipe } from './utils/plano.pipe';
     MatDialogModule,
     CommonModule,
     ToastrModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTabsModule,
+    MatDatepickerModule,
+    MatDatepickerModule,
+    MatButtonModule,
+    MatNativeDateModule, 
   ],
   entryComponents: [
     ConfirmActionComponent,
     ClientRegisterComponent,
   ],
-  providers: [],
+  providers: [PlanoPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

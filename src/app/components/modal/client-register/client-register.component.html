@@ -12,6 +12,13 @@
 </mat-form-field>
 
 <mat-form-field class="example-full-width userInput" appearance="outline">
+    <mat-label>Data de nascimento</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="dataNascimento" required>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+<mat-form-field class="example-full-width userInput" appearance="outline">
     <mat-label>Email</mat-label>
     <input matInput type="text" [formControl]="email" email required>
 </mat-form-field>
@@ -20,6 +27,15 @@
     <mat-label>Telefone</mat-label>
     <input matInput type="tel" [(ngModel)]="client.telefone" tel name="phone">
 </mat-form-field>
+
+<mat-form-field class="example-full-width userInput" appearance="outline">
+    <mat-label>Plano</mat-label>
+    <select [(ngModel)]="client.plano" matNativeControl required>
+      <option value="0">Starter</option>
+      <option value="1">Essentials</option>
+      <option value="2">Top</option>
+    </select>
+  </mat-form-field>
 
 <div class="btnModal" style="float: left; width: 100%;">
     <button mat-raised-button color="warn" style="width: 40%;" (click)="close()">Cancelar</button>

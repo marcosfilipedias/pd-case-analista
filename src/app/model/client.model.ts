@@ -2,7 +2,7 @@ export class Client {
 	id: number;
 	nome: string;
 	cpf: string;
-	dataNascimento: Date;	
+	dataNascimento: any;	
 	sexo: string;	
 	telefone: string;	
     email: string;

@@ -8,11 +8,11 @@ export class PlanoPipe implements PipeTransform {
   transform(value: any): any {    
     switch(value){
       case 0:
-        return "Starter";
+        return "STARTER";
       case 1:
-        return "Essentials";
+        return "ESSENTIALS";
       case 2:
-        return "Top";
+        return "TOP";
     }
   }
 

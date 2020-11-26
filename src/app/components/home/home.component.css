@@ -1,7 +1,7 @@
 .content {
     width: 95%;
     margin: auto;
-    margin-top: 60px;
+    margin-top: 10px;
 }
 
 .page-title {
@@ -45,10 +45,6 @@ table{
     flex: 0 0 5%;
 }
 
-::ng-deep.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-    background-color: #c1f0ea;
-}
-
-::ng-deep.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
-    background-color: #05a592;
+.tab-icon{
+    margin: 5px;
 }
