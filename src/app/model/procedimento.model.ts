@@ -1,5 +1,5 @@
 export class Procedimento{
 	id: number;
-	nome: string;	
+	nome: string = '';	
 	plano: any;
 }

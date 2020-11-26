@@ -3,10 +3,13 @@ import { MatDialog, MatTableDataSource } from '@angular/material';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { Client } from 'src/app/model/client.model';
+import { Procedimento } from 'src/app/model/procedimento.model';
 import { ClientService } from 'src/app/services/client.service';
-import { DateParse } from 'src/app/utils/dateParse';
+import { ProcedimentoService } from 'src/app/services/procedimento.service';
 import { ClientRegisterComponent } from '../modal/client-register/client-register.component';
 import { ConfirmActionComponent } from '../modal/confirm-action/confirm-action.component';
+import { FichaRegisterComponent } from '../modal/ficha-register/ficha-register.component';
+import { ProcedimentoRegisterComponent } from '../modal/procedimento-register/procedimento-register.component';
 
 @Component({
   selector: 'app-home',
@@ -19,21 +22,25 @@ export class HomeComponent implements OnInit {
   dataTable = new MatTableDataSource<Client>();
   columns = ['options', 'name', 'cpf', 'data', 'email', 'phone', 'plano']
 
+  dataProcTable = new MatTableDataSource<Procedimento>();
+  columnsProc = ['options', 'name', 'plano']
+
   constructor(
     public clientService: ClientService,
     public dialog: MatDialog,
     private msgService: ToastrService,
+    private procedimentoService : ProcedimentoService,
   ) { }
 
   ngOnInit() {
     this.readAllClients();
+    this.buscarProcedimentos();
   }
 
   readAllClients(){
     this.blockUI.start();
     this.clientService.readAllClients().subscribe(
       result => {
-        console.log(result)
         this.dataTable = new MatTableDataSource(result);
         this.blockUI.stop()
       }, error => {
@@ -72,15 +79,13 @@ export class HomeComponent implements OnInit {
   }
 
   createClient(client:Client){
-    console.log(client)
     this.clientService.createClient(client).subscribe(
       res => this.readAllClients()
     )
   }
 
   updateClient(client:Client){
-    console.log(client)
-    this.clientService.createClient(client).subscribe(
+    this.clientService.updateClient(client).subscribe(
       res => this.readAllClients()
     )
   }
@@ -96,11 +101,11 @@ export class HomeComponent implements OnInit {
           this.blockUI.start()
           this.clientService.deleteClient(client.id).subscribe(
             res => {
-              this.msgService.success('Usuário deletado.')
+              this.msgService.success('cliente deletado.')
               this.blockUI.stop()
               this.readAllClients();
             }, error => {
-              this.msgService.error('Erro ao deletar usuário.')
+              this.msgService.error('Erro ao deletar cliente.')
               this.blockUI.stop()
             }
           )
@@ -109,12 +114,93 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  parseDate(dateStr){
-    let date = dateStr.substring(0, 10);
-    let time = dateStr.substring(11, 19);
-    let millisecond = dateStr.substring(20)
-    let validDate = date + 'T' + time + '.' + millisecond;
-    console.log(validDate)
-    return validDate
+  applyProcFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataProcTable.filter = filterValue.trim().toLowerCase();
+  }
+
+  buscarProcedimentos(){
+    this.blockUI.start()
+    this.procedimentoService.readAll().subscribe(
+      res => {
+        this.dataProcTable = new MatTableDataSource(res);
+        this.blockUI.stop()
+      }, error => {
+        this.msgService.error('Erro buscar procedimentos.')
+        this.blockUI.stop()
+      }
+    )
+  }
+
+  openProcedimentoModal(procedimento){
+    let dialogRef = this.dialog.open(ProcedimentoRegisterComponent,{
+      width: '400px', height: 'auto', disableClose: false,
+      data: {procedimento: procedimento}
+    });
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if(res != null){
+          if(res.id == null){
+            this.createProcedimento(res);
+          }else{
+            this.updateProcedimento(res);
+          }
+        }
+      }
+    );
+  }
+
+  createProcedimento(proc:Procedimento){
+    this.procedimentoService.create(proc).subscribe(
+      res => this.buscarProcedimentos()
+    )
+  }
+
+  updateProcedimento(proc:Procedimento){
+    this.procedimentoService.update(proc).subscribe(
+      res => this.buscarProcedimentos()
+    )
+  }
+
+  deleteProcedimento(procedimento:any){
+    let dialogRef = this.dialog.open(ConfirmActionComponent,{
+      width: '400px', height: 'auto', disableClose: false,
+      data: {text: 'Deseja excluir o procedimento ' + procedimento.nome + '?'}
+    });
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if(res){
+          this.blockUI.start()
+          this.procedimentoService.delete(procedimento.id).subscribe(
+            res => {
+              this.msgService.success('Procedimento deletado.')
+              this.blockUI.stop()
+              this.buscarProcedimentos();
+            }, error => {
+              this.msgService.error('Erro ao deletar o procedimento.')
+              this.blockUI.stop()
+            }
+          )
+        }
+      }
+    )
+  }
+
+  openFicha(cliente){
+    let dialogRef = this.dialog.open(FichaRegisterComponent,{
+      width: '600px', height: 'auto', disableClose: false,
+      data: { cliente: cliente, procedimentos: this.dataProcTable.data }
+    });
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if(res != null){
+          /*if(res.id == null){
+            this.createProcedimento(res);
+          }else{
+            this.updateProcedimento(res);
+          }*/
+        }
+      }
+    );
   }
 }

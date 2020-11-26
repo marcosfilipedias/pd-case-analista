@@ -1,21 +1,17 @@
 <mat-tab-group style="margin: 30px;">
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon tab-icon">face</mat-icon>
-        Clientes
+        <mat-icon class="example-tab-icon tab-icon">face</mat-icon> Clientes
       </ng-template>    
         <div class="content" role="main">
             <button mat-raised-button aria-label="Cadastrar Cliente" class="add-button" (click)="openClientModal(null)">
                 <mat-icon class="icon-button">add_circle</mat-icon> Cadastrar
             </button>
-
             <div *ngIf="dataTable.data.length>0">
                 <mat-form-field class="filter" >
                     <mat-label>Filtrar por nome ou email</mat-label>
                     <input matInput (keyup)="applyFilter($event)" #input>
-                </mat-form-field>
-            
-                <div class="mat-elevation-z8">
+                </mat-form-field>            
                     <table mat-table [dataSource]="dataTable">
                         <ng-container matColumnDef="options">
                             <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -26,7 +22,7 @@
                                 <button mat-icon-button color="primary" matTooltip="Editar usuário" (click)="openClientModal(element)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <button mat-icon-button matTooltip="Ficha">
+                                <button mat-icon-button matTooltip="Ficha" (click)="openFicha(element)">
                                     <mat-icon>assignment</mat-icon>
                                 </button>
                             </mat-cell>
@@ -34,7 +30,7 @@
             
                         <ng-container matColumnDef="name">
                             <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-                            <mat-cell *matCellDef="let element">  {{element.id}} - {{element.nome}} </mat-cell>
+                            <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
                         </ng-container>
             
                         <ng-container matColumnDef="cpf">
@@ -54,7 +50,7 @@
             
                         <ng-container matColumnDef="phone">
                             <mat-header-cell *matHeaderCellDef> Telefone </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
+                            <mat-cell *matCellDef="let element"> {{element.telefone}} </mat-cell>
                         </ng-container>
             
                         <ng-container matColumnDef="plano">
@@ -65,7 +61,6 @@
                         <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: columns;"></mat-row>
                     </table>
-                </div>
             </div>
         </div>
     </mat-tab>
@@ -74,6 +69,41 @@
         <mat-icon class="example-tab-icon tab-icon">local_hospital</mat-icon>
         Procedimentos
       </ng-template>
-      ...
+      <div class="content" role="main">
+        <button mat-raised-button aria-label="Cadastrar Cliente" class="add-button" (click)="openProcedimentoModal(null)">
+            <mat-icon class="icon-button">add_circle</mat-icon> Cadastrar
+        </button>
+        <div>
+            <mat-form-field class="filter" >
+                <mat-label>Filtrar Procedimentos</mat-label>
+                <input matInput (keyup)="applyProcFilter($event)" #input>
+            </mat-form-field>
+            <table mat-table [dataSource]="dataProcTable">
+                <ng-container matColumnDef="options">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="warn" matTooltip="Deletar Procedimento" (click)="deleteProcedimento(element)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" matTooltip="Editar Procedimento" (click)="openProcedimentoModal(element)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef> Nome Procedimento </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="plano">
+                    <mat-header-cell *matHeaderCellDef> Plano Mínimo </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.plano}} </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="columnsProc"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: columnsProc;"></mat-row>
+            </table>            
+        </div>
+    </div>
     </mat-tab>
 </mat-tab-group>

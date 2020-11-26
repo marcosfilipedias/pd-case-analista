@@ -1,1 +1,18 @@
-<p>procedimento-register works!</p>
+<span class="modalTitle">{{modalTitle}}</span>
+<mat-divider style="margin-bottom: 10px;"></mat-divider>
+<mat-form-field class="example-full-width userInput" appearance="outline">
+    <mat-label>Nome</mat-label>
+    <input matInput [(ngModel)]="procedimento.nome" name="name" required>
+</mat-form-field>
+<mat-form-field class="example-full-width userInput" appearance="outline">
+    <mat-label>Plano</mat-label>
+    <mat-select [(ngModel)]="plano" matNativeControl required>
+      <mat-option value="STARTER">Starter</mat-option>
+      <mat-option value="ESSENTIALS">Essentials</mat-option>
+      <mat-option value="TOP">Top</mat-option>
+    </mat-select>
+</mat-form-field>
+<div class="btnModal" style="float: left; width: 100%;">
+    <button mat-raised-button color="warn" style="width: 40%;" (click)="close()">Cancelar</button>
+    <button mat-raised-button color="primary" style="width: 40%;" (click)="save()">Salvar</button>
+</div>

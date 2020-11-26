@@ -15,27 +15,28 @@ export class ClientRegisterComponent implements OnInit {
   modalTitle: string;
   client: Client = null;
   email = new FormControl();
-  dataNascimento = new Date();
+  dataNascimento: Date = null;
+  plano = null;
 
   constructor(
     public dialogRef: MatDialogRef<ClientRegisterComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private msgService: ToastrService,
-    private planoPipe : PlanoPipe
   ) { }
 
   ngOnInit() {
     this.client = this.data.client != null ? this.data.client : new Client();
     this.email.setValue(this.client.email);
-    this.dataNascimento = new Date(this.data.client.dataNascimento);
+    this.dataNascimento = this.data.client != null ? new Date(this.data.client.dataNascimento) : null;
+    this.plano = this.data.client != null ? this.getPlan(this.data.client.plano) : null;
     this.modalTitle = this.data.client != null ? 'Editar Cliente':'Cadastrar Cliente';
   }
 
   save(){
     if(this.checkField()){
       this.client.email = this.email.value
-      this.client.plano = this.planoPipe.transform(this.client.plano);
       this.client.dataNascimento = this.dataNascimento.getTime()
+      this.client.plano = this.plano;
       this.dialogRef.close(this.client);
     }
   }
@@ -53,6 +54,17 @@ export class ClientRegisterComponent implements OnInit {
       return false;
     }else{
       return true;
+    }
+  }
+
+  getPlan(value: any): any {    
+    switch(value){
+      case 0: case "STARTER":
+        return "STARTER";
+      case 1: case "ESSENTIALS":
+        return "ESSENTIALS";
+      case 2: case "TOP":
+        return "TOP";
     }
   }
 }

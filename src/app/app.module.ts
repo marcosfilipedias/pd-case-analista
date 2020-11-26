@@ -23,6 +23,8 @@ import { PlanoPipe } from './utils/plano.pipe';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -59,10 +61,14 @@ import { MatNativeDateModule } from '@angular/material';
     MatDatepickerModule,
     MatButtonModule,
     MatNativeDateModule, 
+    MatSelectModule,
+    MatCardModule
   ],
   entryComponents: [
     ConfirmActionComponent,
     ClientRegisterComponent,
+    ProcedimentoRegisterComponent,
+    FichaRegisterComponent,
   ],
   providers: [PlanoPipe],
   bootstrap: [AppComponent]
