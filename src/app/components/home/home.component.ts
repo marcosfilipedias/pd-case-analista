@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
   dataTable = new MatTableDataSource<Client>();
-  columns = ['options', 'name', 'cpf', 'data', 'email', 'phone', 'plano']
+  columns = ['options', 'name', 'sexo', 'cpf', 'data', 'email', 'phone', 'plano']
 
   dataProcTable = new MatTableDataSource<Procedimento>();
   columnsProc = ['options', 'name', 'plano']
@@ -79,14 +79,24 @@ export class HomeComponent implements OnInit {
   }
 
   createClient(client:Client){
+    this.blockUI.start();
     this.clientService.createClient(client).subscribe(
-      res => this.readAllClients()
+      res => {
+        this.blockUI.stop();
+        this.msgService.success('Cliente cadastrado.')
+        this.readAllClients()
+      }
     )
   }
 
   updateClient(client:Client){
+    this.blockUI.start();
     this.clientService.updateClient(client).subscribe(
-      res => this.readAllClients()
+      res => {
+        this.blockUI.stop();
+        this.msgService.success('Cliente atualizado.')
+        this.readAllClients();
+      }
     )
   }
 
@@ -151,14 +161,24 @@ export class HomeComponent implements OnInit {
   }
 
   createProcedimento(proc:Procedimento){
+    this.blockUI.start();
     this.procedimentoService.create(proc).subscribe(
-      res => this.buscarProcedimentos()
+      res => {
+        this.blockUI.stop();
+        this.msgService.success('Procedimento cadastrado.')
+        this.buscarProcedimentos()
+      }
     )
   }
 
   updateProcedimento(proc:Procedimento){
+    this.blockUI.start();
     this.procedimentoService.update(proc).subscribe(
-      res => this.buscarProcedimentos()
+      res => {
+        this.blockUI.stop();
+        this.msgService.success('Procedimento atualizado.')
+        this.buscarProcedimentos()
+      }
     )
   }
 
@@ -191,16 +211,6 @@ export class HomeComponent implements OnInit {
       width: '600px', height: 'auto', disableClose: false,
       data: { cliente: cliente, procedimentos: this.dataProcTable.data }
     });
-    dialogRef.afterClosed().subscribe(
-      res => {
-        if(res != null){
-          /*if(res.id == null){
-            this.createProcedimento(res);
-          }else{
-            this.updateProcedimento(res);
-          }*/
-        }
-      }
-    );
+    dialogRef.afterClosed().subscribe();
   }
 }

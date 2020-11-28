@@ -39,4 +39,12 @@ export class ProcedimentoService {
   delete(procedimento:number): Observable<any>{
     return this.http.delete(this.API_URL + '/excluir/' + procedimento);
   }
+
+  marcarPocedimento(procedimento, cliente): Observable<Procedimento>{
+    return this.http.get<Procedimento>(this.API_URL + '/marcarProcedimento/cliente/' + cliente + '/procedimento/' + procedimento);
+  }
+
+  buscarProcedimentoRealizados(idCliente): Observable<any>{
+    return this.http.get<Procedimento>(this.API_URL + '/procedimentosRealizados/cliente/' + idCliente);
+  }
 }

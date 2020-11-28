@@ -46,7 +46,7 @@ export class ClientRegisterComponent implements OnInit {
   }
 
   checkField(){
-    if(this.client.nome == '' || this.client.cpf == '' ){
+    if(this.client.nome == '' || this.client.cpf == '' || this.plano == null || this.dataNascimento == null){
       this.msgService.warning('Os campos com ** são obrigatórios.');
       return false;
     }else if(!this.email.valid){

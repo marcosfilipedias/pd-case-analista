@@ -1,25 +1,46 @@
 <mat-card class="example-card">
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image">
-        <img width="50" src="\assets\image\avatarWoman.png" *ngIf="cliente.sexo == 'F'"/>
-        <img width="50" src="\assets\image\avatarBatman.webp" *ngIf="cliente.sexo != 'F'"/>
-      </div>
-      <mat-card-title>{{cliente.nome}}</mat-card-title>
-      <mat-card-subtitle>Plano: {{plano}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-    </mat-card-content>
-    <mat-card-actions>
-        <mat-form-field class="example-full-width userInput" appearance="outline">
-            <mat-label>Procedimentos</mat-label>
-            <mat-select [(ngModel)]="procedimentoSelecionado" name="proc">
-              <mat-option *ngFor="let proc of listaProcedimentos" [value]="proc">
-                {{proc.nome}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        <button mat-mini-fab color="primary" style="margin: 15px 15px;" (click)="cadastrar()">
-            <mat-icon>add</mat-icon>
-        </button>
-    </mat-card-actions>
-  </mat-card>
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <img width="50" src="\assets\image\avatarWoman.png" *ngIf="cliente.sexo == 'F'" />
+      <img width="50" src="\assets\image\avatarBatman.webp" *ngIf="cliente.sexo != 'F'" />
+    </div>
+    <mat-card-title>{{cliente.nome}}</mat-card-title>
+    <mat-card-subtitle>Plano: {{plano}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="procRealizados" style="margin-top: 15px;">
+      <span class="title">Procedimentos Realizados</span>
+      <mat-divider style="margin: 10px 0px; border: transparent;"></mat-divider>
+      <table mat-table [dataSource]="dataProcTable">
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> Nome Procedimento </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="data">
+          <mat-header-cell *matHeaderCellDef> Data Realização </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.dataInclusao | date:'dd/MMM/yyyy hh:mm'}} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columnsProc"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnsProc;"></mat-row>
+      </table>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <div style="width: 60%; float: left; display: flex; justify-content: center; align-items: center; margin-top: 10px;" >
+      <mat-form-field class="example-full-width userInput" appearance="outline">
+        <mat-label>Marcar Procedimento</mat-label>
+        <mat-select [(ngModel)]="procedimentoSelecionado" name="proc">
+          <mat-option *ngFor="let proc of listaProcedimentos" [value]="proc">
+            {{proc.nome}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center; width: 70px;">
+      <button mat-mini-fab color="primary" style="margin: 15px 15px;" (click)="marcarProcedimento()"
+        [disabled]="procedimentoSelecionado == null">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

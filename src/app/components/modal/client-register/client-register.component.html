@@ -7,6 +7,14 @@
 </mat-form-field>
 
 <mat-form-field class="example-full-width userInput" appearance="outline">
+    <mat-label>Sexo</mat-label>
+    <mat-select [(ngModel)]="client.sexo" matNativeControl>
+      <mat-option value="M">Masculino</mat-option>
+      <mat-option value="F">Feminino</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field class="example-full-width userInput" appearance="outline">
     <mat-label>CPF</mat-label>
     <input matInput [(ngModel)]="client.cpf" name="surName" required>
 </mat-form-field>

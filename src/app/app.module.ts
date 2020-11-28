@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
@@ -25,7 +24,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { SexoPipe } from './utils/sexo.pipe';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MatCardModule } from '@angular/material/card';
     ProcedimentoRegisterComponent,
     ConfirmActionComponent,
     PlanoPipe,
+    SexoPipe,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,6 @@ import { MatCardModule } from '@angular/material/card';
     MatSlideToggleModule,
     MatDialogModule,
     CommonModule,
-    ToastrModule.forRoot(),
     ReactiveFormsModule,
     MatTabsModule,
     MatDatepickerModule,
@@ -62,7 +63,9 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatNativeDateModule, 
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule,
+    ToastrModule.forRoot(),
   ],
   entryComponents: [
     ConfirmActionComponent,
@@ -71,6 +74,6 @@ import { MatCardModule } from '@angular/material/card';
     FichaRegisterComponent,
   ],
   providers: [PlanoPipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

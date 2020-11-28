@@ -5,7 +5,7 @@
       </ng-template>    
         <div class="content" role="main">
             <button mat-raised-button aria-label="Cadastrar Cliente" class="add-button" (click)="openClientModal(null)">
-                <mat-icon class="icon-button">add_circle</mat-icon> Cadastrar
+                <mat-icon class="icon-button">add_circle</mat-icon> Novo Cliente
             </button>
             <div *ngIf="dataTable.data.length>0">
                 <mat-form-field class="filter" >
@@ -32,7 +32,12 @@
                             <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
                             <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
                         </ng-container>
-            
+
+                        <ng-container matColumnDef="sexo">
+                            <mat-header-cell *matHeaderCellDef> Sexo </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.sexo | sexo}} </mat-cell>
+                        </ng-container>
+
                         <ng-container matColumnDef="cpf">
                             <mat-header-cell *matHeaderCellDef> CPF </mat-header-cell>
                             <mat-cell *matCellDef="let element"> {{element.cpf}} </mat-cell>
@@ -66,12 +71,11 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon tab-icon">local_hospital</mat-icon>
-        Procedimentos
+        <mat-icon class="example-tab-icon tab-icon">local_hospital</mat-icon> Procedimentos
       </ng-template>
       <div class="content" role="main">
         <button mat-raised-button aria-label="Cadastrar Cliente" class="add-button" (click)="openProcedimentoModal(null)">
-            <mat-icon class="icon-button">add_circle</mat-icon> Cadastrar
+            <mat-icon class="icon-button">add_circle</mat-icon> Novo Procedimento
         </button>
         <div>
             <mat-form-field class="filter" >
@@ -102,7 +106,7 @@
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="columnsProc"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: columnsProc;"></mat-row>
-            </table>            
+            </table>       
         </div>
     </div>
     </mat-tab>
